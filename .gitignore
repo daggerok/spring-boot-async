@@ -1,7 +1,7 @@
 .gradle/
 build/
 gradle/
-gradlew*/
+gradlew*
 
 ### STS ###
 .apt_generated
