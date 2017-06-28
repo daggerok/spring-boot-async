@@ -20,7 +20,7 @@ public class AsyncResource {
 
     log.info("Sync.start");
     asyncService.asyncMethod(string);
-    log.info("{} Sync.end");
+    log.info("Sync.end");
 
     return "done.";
   }

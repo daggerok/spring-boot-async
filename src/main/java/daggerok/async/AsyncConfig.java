@@ -1,6 +1,6 @@
 package daggerok.async;
 
-import daggerok.async.error.AsyncExceptionHandler;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
+import static java.lang.Integer.MAX_VALUE;
+
+@Slf4j
 @EnableAsync
 @Configuration
 public class AsyncConfig implements AsyncConfigurer {
@@ -17,16 +20,16 @@ public class AsyncConfig implements AsyncConfigurer {
   @Override
   public Executor getAsyncExecutor() {
     val executor = new ThreadPoolTaskExecutor();
-    executor.setCorePoolSize(7);
-    executor.setMaxPoolSize(432);
-    executor.setQueueCapacity(11);
     executor.setThreadNamePrefix("AsyncExecutor-");
+    executor.setCorePoolSize(MAX_VALUE);
     executor.initialize();
     return executor;
   }
 
   @Override
   public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-    return new AsyncExceptionHandler();
+    return (e, method, params) ->
+        log.error("custom error handler: {} method: {}, params: '{}'",
+                  e.getLocalizedMessage(), method.getName(), params);
   }
 }

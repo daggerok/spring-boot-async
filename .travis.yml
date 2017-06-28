@@ -15,7 +15,7 @@ script:
   # test and build
   - gradle clean test build
   # run rest
-  - sudo mkdir -p /var/app
+  - sudo mkdir -p /var/app/
   - sudo mv -f build/libs/*.jar /var/app/app.jar
   - sudo ln -s /var/app/app.jar /etc/init.d/app
   - sudo service app start
