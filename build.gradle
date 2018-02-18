@@ -1,19 +1,22 @@
 buildscript {
   ext {
-    springBootVersion = "1.5.4.RELEASE"
+    springBootVersion = "1.5.10.RELEASE"
   }
 }
 
 plugins {
   id "java"
+  id "idea"
+  id "maven"
   id "eclipse"
-  id "org.springframework.boot" version "1.5.4.RELEASE"
+  id "org.springframework.boot" version "1.5.10.RELEASE"
 }
 
-version = "0.0.1-SNAPSHOT"
-sourceCompatibility = 1.8
+version = "0.0.1"
+sourceCompatibility = targetCompatibility = 1.8
 
 repositories {
+  mavenLocal()
   mavenCentral()
 }
 
@@ -21,9 +24,10 @@ dependencies {
   compile("org.springframework.boot:spring-boot-starter-web")
   runtime("org.springframework.boot:spring-boot-devtools")
   compileOnly("org.projectlombok:lombok")
-  testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
 springBoot {
   executable = true
 }
+
+defaultTasks "clean", "build"

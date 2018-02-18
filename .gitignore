@@ -1,7 +1,7 @@
 .gradle/
+target/
 build/
-gradle/
-gradlew*
+out/
 
 ### STS ###
 .apt_generated
@@ -16,6 +16,7 @@ gradlew*
 *.iws
 *.iml
 *.ipr
+*.log*
 
 ### NetBeans ###
 nbproject/private/
