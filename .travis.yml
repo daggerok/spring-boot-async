@@ -1,37 +1,31 @@
-group: edge
-dist: trusty
+group: trusty_lts
 language: java
-jdk: oraclejdk8
+jdk:
+- oraclejdk8
+- openjdk8
 install: true
-#before_install:
-#  # install docker-compose
-#  - sudo apt update
-#  - sudo apt install -y python-pip curl jq libxml2-utils
-#  - sudo pip install docker-compose
-#  - sudo usermod -aG docker $(whoami)
-#  # kill whatever punning on pg port
-#  - true | sudo kill $(sudo lsof -t -i:5432)
+before_install:
+- sudo apt update -y
+- sudo apt install curl jq
+## install docker-compose
+#- sudo apt update
+#- sudo apt install -y python-pip curl jq libxml2-utils
+#- sudo pip install docker-compose
+#- sudo usermod -aG docker $(whoami)
+## kill whatever punning on pg port
+#- true | sudo kill $(sudo lsof -t -i:5432)
 script:
-  # test and build
-  - gradle clean test build
-  # run rest
-  - sudo mkdir -p /var/app/
-  - sudo mv -f build/libs/*.jar /var/app/app.jar
-  - sudo ln -s /var/app/app.jar /etc/init.d/app
-  - sudo service app start
-  # manual rest api tests
-  - sleep 15
-  - curl -sSXGET localhost:8080/api/v1/async -d string=test
-  - curl -sSXGET localhost:8080/api/v1/async-error -d string=test
-  - curl -sS localhost:8080/api/v1/spring/event1/test1
-  - curl -sS localhost:8080/api/v1/spring/event2/test2
-  - sudo service app stop
-  - gradle --stop
-before_cache:
-  - rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
-cache:
-  directories:
-    - $HOME/.m2/
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+# test and build
+- bash ./gradlew clean test build
+# run rest
+- mkdir -p /tmp/app
+- sudo mv -f ./build/libs/*.jar /tmp/app/app.jar
+- sudo ln -s /tmp/app/app.jar /etc/init.d/app
+- sudo service app start
+# manual rest api tests
+- sleep 15
+- curl -sSXGET localhost:8080/api/v1/async -d string=test
+- curl -sSXGET localhost:8080/api/v1/async-error -d string=test
+- curl -sS localhost:8080/api/v1/spring/event1/test1
+- curl -sS localhost:8080/api/v1/spring/event2/test2
+- sudo service app stop

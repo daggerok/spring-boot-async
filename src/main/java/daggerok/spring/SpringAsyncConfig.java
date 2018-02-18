@@ -2,6 +2,7 @@ package daggerok.spring;
 
 import lombok.val;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -9,9 +10,9 @@ import org.springframework.scheduling.support.TaskUtils;
 
 import java.util.concurrent.Executor;
 
-//// testing async:
-//// uncomment to enable async
-//@Configuration
+// testing async:
+// uncomment to enable async
+@Configuration
 public class SpringAsyncConfig {
 
   @Bean
